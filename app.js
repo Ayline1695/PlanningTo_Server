@@ -4,9 +4,9 @@ const app = express();
 //middleware
 require("./configs/middleware.config")(app);
 //db
-require("./configs/db.config")(app);
+require("./configs/db.config")();
 //Session
-require("./configs/session.config");
+require("./configs/session.config")(app);
 
 const projectRoutes = require("./routes/project.routes");
 const authRoutes = require("./routes/auth.routes");
