@@ -14,7 +14,10 @@ exports.getProjects = async (res, req) => {
 exports.getProject = async (req, res) => {
   try {
     const { projectId } = req.params;
-    const project = await Project.findById(projectId);
+    const project = await Project.findById(projectId).populate(
+      "tasks",
+      "lists"
+    );
     res.status(200).json({ data: project });
   } catch (e) {
     res.status(400);
