@@ -4,7 +4,7 @@ const Project = require("../models/Project.model");
 
 exports.getProjects = async (res, req) => {
   try {
-    const projects = await Project.find();
+    const projects = await Project.find({});
     res.status(200).json({ data: projects });
   } catch (e) {
     res.status(400);

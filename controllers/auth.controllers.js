@@ -50,7 +50,13 @@ exports.login = async (req, res) => {
 };
 
 exports.logout = async (req, res) => {
-  req.session.userId = null;
-  req.session.destroy();
+  //req.session.userId = null;
+  await req.session.destroy();
   res.status(200).json({ message: "Log out sucess" });
+};
+
+exports.getUser = async (req, res) => {
+  const { userId } = req.session;
+  const { email, _id } = await User.findOne(userId);
+  res.status(200).json({ id: _id, email });
 };

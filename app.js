@@ -11,10 +11,12 @@ require("./configs/session.config")(app);
 const projectRoutes = require("./routes/project.routes");
 const authRoutes = require("./routes/auth.routes");
 const listRoutes = require("./routes/list.routes");
+const taskRoutes = require("./routes/task.routes");
 
 app.use("/", authRoutes);
 app.use("/projects", projectRoutes);
 app.use("/lists", listRoutes);
+app.use("/task", taskRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log("server running");
