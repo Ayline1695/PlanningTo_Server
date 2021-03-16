@@ -7,6 +7,7 @@ const UserSchema = new mongoose.Schema(
     password: { type: String, required: true },
     projects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Project" }],
     lists: [{ type: mongoose.Schema.Types.ObjectId, ref: "List" }],
+    tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Task" }],
   },
   { timestamps: true }
 );

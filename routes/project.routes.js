@@ -7,10 +7,12 @@ const {
   updateProject,
   removeProject,
 } = require("../controllers/project.controller");
+//const { createTaskProject } = require("../controllers/task.controllers");
 
 route
   .get("/", getProjects)
   .get("/:projectId", getProject)
+  //.post("/:projectId/task/:taskId", createTaskProject)
   .post("/", createProject)
   .put("/:projectId", updateProject)
   .delete("/:projectId", removeProject);
