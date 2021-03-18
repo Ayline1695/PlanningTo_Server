@@ -5,7 +5,9 @@ const ListSchema = new mongoose.Schema(
     title: { type: String, require: true },
     description: { type: String, require: true },
     status: Boolean,
-    tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Task" }],
+    tasks: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Task", default: false },
+    ],
   },
   { timestamps: true }
 );

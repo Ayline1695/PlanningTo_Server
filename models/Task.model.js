@@ -4,6 +4,7 @@ const TaskSchema = mongoose.Schema(
   {
     name: { type: String, require: true },
     status: String,
+    default: false,
   },
   { timestamps: true }
 );

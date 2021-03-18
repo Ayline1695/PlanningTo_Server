@@ -2,10 +2,10 @@ const Project = require("../models/Project.model");
 
 //controlador para devolver todos los projectos
 
-exports.getProjects = async (res, req) => {
+exports.getProjects = async (req, res) => {
   try {
     const projects = await Project.find({});
-    res.status(200).json({ data: projects });
+    res.status(200).json(projects);
   } catch (e) {
     res.status(400);
   }
@@ -18,7 +18,7 @@ exports.getProject = async (req, res) => {
       "tasks",
       "lists"
     );
-    res.status(200).json({ data: project });
+    res.status(200).json(project);
   } catch (e) {
     res.status(400);
   }
@@ -26,11 +26,22 @@ exports.getProject = async (req, res) => {
 
 exports.createProject = async (req, res, next) => {
   try {
+    console.log(req.body);
     const newProject = await Project.create(req.body);
-    res.status(200).json({ data: newProject });
+    res.status(200).json(newProject);
   } catch (e) {
     res.status(400);
   }
+};
+
+//Upload img
+exports.uploadImage = async (req, res) => {
+  console.log("req.file", req.file);
+  if (!req.file) {
+    next(new Error("No file uploaded"));
+    return;
+  }
+  res.json(req.file.path);
 };
 
 exports.updateProject = async (req, res) => {
@@ -41,7 +52,7 @@ exports.updateProject = async (req, res) => {
       req.body,
       { new: true }
     );
-    res.status(200).json({ data: updatedProject });
+    res.status(200).json(updatedProject);
   } catch (e) {
     res.status(400);
   }
@@ -51,7 +62,7 @@ exports.removeProject = async (req, res) => {
   try {
     const { projectId } = req.params;
     await Project.findByIdAndDelete(projectId);
-    res.status(200).json({ data: { message: "delete succesfull" } });
+    res.status(200).json({ message: "delete succesfull" });
   } catch (e) {
     res.status(400);
   }
