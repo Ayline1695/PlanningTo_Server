@@ -1,4 +1,6 @@
 const Project = require("../models/Project.model");
+const Task = require("../models/Task.model");
+const User = require("../models/User.model");
 
 //controlador para devolver todos los projectos
 
@@ -27,8 +29,15 @@ exports.getProject = async (req, res) => {
 exports.createProject = async (req, res, next) => {
   try {
     console.log(req.body);
+    const { userId } = req.params;
     const newProject = await Project.create(req.body);
-    res.status(200).json(newProject);
+    const updatedUser = await User.findOneAndUpdate(
+      { userId },
+      { $push: { projects: newProject } }
+    );
+    console.log("New project!", newProject);
+    console.log("Create project!", updatedUser);
+    res.status(200).json(updatedUser);
   } catch (e) {
     res.status(400);
   }
@@ -68,3 +77,23 @@ exports.removeProject = async (req, res) => {
   }
 };
 //shallow deleted, donde se guardan lo que se ha borrado, una carpeta de basura, clase 9/03/2021
+
+// tasks
+
+exports.getTasksProjects = async (req, res) => {
+  try {
+    const tasks = await Task.findById(req.params.taskId);
+    res.status(200).json(tasks);
+  } catch (e) {
+    res.status(400);
+  }
+};
+
+exports.createTaskProject = (req, res) => {
+  Task.create(req.body).then((res) => {
+    return Project.findByIdAndUpdate(req.body.project, {
+      $push: { task: res._id },
+    });
+  });
+  res.status(200).json(task);
+};

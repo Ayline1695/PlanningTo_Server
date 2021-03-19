@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     imageUrl: { type: String, default: [true, "/img/user.png"] },
-    projects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Project" }],
+    project: [{ type: mongoose.Schema.Types.ObjectId, ref: "Project" }],
     lists: [{ type: mongoose.Schema.Types.ObjectId, ref: "List" }],
     tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Task" }],
   },
