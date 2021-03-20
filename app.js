@@ -15,7 +15,7 @@ const authRoutes = require("./routes/auth.routes");
 const postitRoutes = require("./routes/postit.routes");
 const taskRoutes = require("./routes/task.routes");
 
-app.use("/", authRoutes);
+app.use("/auth", authRoutes);
 app.use("/projects", projectRoutes);
 app.use("/lists", postitRoutes);
 app.use("/task", taskRoutes);
