@@ -4,8 +4,13 @@ const {
   getTasks,
   createTask,
   deleteTask,
+  updateTask,
 } = require("../controllers/task.controllers");
 
-route.get("/", getTasks).post("/", createTask).delete("/:taskId", deleteTask);
+route
+  .post("/", createTask)
+  .get("/:projectId/tasks", getTasks)
+  .delete("/:taskId", deleteTask)
+  .patch("/:taskId", updateTask);
 
 module.exports = route;

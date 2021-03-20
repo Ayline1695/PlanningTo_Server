@@ -6,7 +6,8 @@ const User = require("../models/User.model");
 
 exports.getProjects = async (req, res) => {
   try {
-    const projects = await Project.find({});
+    const { userId } = req.session;
+    const { projects } = await User.findById(userId).populate("projects");
     res.status(200).json(projects);
   } catch (e) {
     res.status(400);
@@ -16,28 +17,28 @@ exports.getProjects = async (req, res) => {
 exports.getProject = async (req, res) => {
   try {
     const { projectId } = req.params;
-    const project = await Project.findById(projectId).populate(
-      "tasks",
-      "lists"
-    );
-    res.status(200).json(project);
+    const project = await Project.findById(projectId);
+    const tasks = await Task.find({ project: projectId });
+    res.status(200).json({ project, tasks });
   } catch (e) {
     res.status(400);
   }
 };
 
-exports.createProject = async (req, res, next) => {
+exports.createProject = async (req, res) => {
   try {
-    console.log(req.body);
-    const { userId } = req.params;
+    const { userId } = req.session;
+    if (!userId) {
+      return res.status(400).json("no user");
+    }
     const newProject = await Project.create(req.body);
-    const updatedUser = await User.findOneAndUpdate(
-      { userId },
-      { $push: { projects: newProject } }
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $push: { projects: newProject._id } },
+      { new: true }
     );
-    console.log("New project!", newProject);
-    console.log("Create project!", updatedUser);
-    res.status(200).json(updatedUser);
+
+    res.status(200).json({ updatedUser, newProject });
   } catch (e) {
     res.status(400);
   }
@@ -59,7 +60,7 @@ exports.updateProject = async (req, res) => {
     const updatedProject = await Project.findByIdAndUpdate(
       projectId,
       req.body,
-      { new: true }
+      { new: true, omitUndefined: true }
     );
     res.status(200).json(updatedProject);
   } catch (e) {
@@ -79,21 +80,3 @@ exports.removeProject = async (req, res) => {
 //shallow deleted, donde se guardan lo que se ha borrado, una carpeta de basura, clase 9/03/2021
 
 // tasks
-
-exports.getTasksProjects = async (req, res) => {
-  try {
-    const tasks = await Task.findById(req.params.taskId);
-    res.status(200).json(tasks);
-  } catch (e) {
-    res.status(400);
-  }
-};
-
-exports.createTaskProject = (req, res) => {
-  Task.create(req.body).then((res) => {
-    return Project.findByIdAndUpdate(req.body.project, {
-      $push: { task: res._id },
-    });
-  });
-  res.status(200).json(task);
-};

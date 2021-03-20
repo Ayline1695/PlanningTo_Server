@@ -12,6 +12,6 @@ route
   .post("/signup", signup)
   .post("/login", login)
   .post("/logout", logout)
-  .get("/", withAuth, getUser);
+  .get("/user", getUser);
 
 module.exports = route;

@@ -8,22 +8,14 @@ const {
   uploadImage,
   updateProject,
   removeProject,
-  getTasksProjects,
 } = require("../controllers/project.controller");
-const {
-  createTaskProject,
-  deleteTask,
-} = require("../controllers/task.controllers");
 
 route
   .get("/", getProjects)
   .get("/:projectId", getProject)
-  .get("/:projectId/task/:taskId", getTasksProjects)
-  .post("/:projectId/task/", createTaskProject)
   .post("/", createProject)
   .post("/upload", fileParser.single("file"), uploadImage)
   .put("/:projectId", updateProject)
-  .delete("/:projectId", removeProject)
-  .delete("/:projectId/task/:taskId", deleteTask);
+  .delete("/:projectId", removeProject);
 
 module.exports = route;
