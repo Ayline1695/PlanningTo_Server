@@ -1,4 +1,4 @@
-const List = require("../models/List.model");
+const List = require("../models/PostIt.model");
 
 exports.getLists = async (req, res) => {
   const lists = await List.find();

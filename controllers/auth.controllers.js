@@ -42,8 +42,8 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: "unauthorize" });
     }
 
-    req.session.userId = user.userId;
-    return res.status(200).json({ user: user.email });
+    req.session.userId = user._id;
+    return res.status(200).json({ user: user.email, id: user._id });
   } catch (e) {
     return res.status(400).json({ message: "wrong request" });
   }
@@ -56,16 +56,6 @@ exports.logout = async (req, res) => {
 
 exports.getUser = async (req, res) => {
   const { userId } = req.session;
-  const { email, _id } = await User.findOne(userId).populate([
-    {
-      path: "projects",
-    },
-    {
-      path: "tasks",
-    },
-    {
-      path: "lists",
-    },
-  ]);
-  res.status(200).json({ id: _id, email });
+  const user = await User.findById(userId).populate("projects");
+  res.status(200).json(user);
 };

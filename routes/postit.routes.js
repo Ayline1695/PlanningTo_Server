@@ -6,7 +6,7 @@ const {
   updateList,
   deleteList,
   createList,
-} = require("../controllers/list.controllers");
+} = require("../controllers/postit.controller");
 
 route
   .get("/", getLists)
