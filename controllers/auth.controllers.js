@@ -3,7 +3,7 @@ const bycript = require("bcryptjs");
 
 exports.signup = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, username } = req.body;
     const hasMissingCredentials = !email || !password;
     if (hasMissingCredentials) {
       return res.status(400).json({ message: "missing credentials" });
@@ -16,10 +16,14 @@ exports.signup = async (req, res) => {
     //validaciones
     const salt = await bycript.genSalt(saltRounds);
     const hashPassword = await bycript.hash(password, salt);
-    const newUser = await User.create({ email, password: hashPassword });
+    const newUser = await User.create({
+      username,
+      email,
+      password: hashPassword,
+    });
     //guardamos el id del usuario en la session, lo usamos en las rutas, cuando se quiera recuperar la info del usuario
     req.session.userId = newUser._id;
-    return res.status(200).json({ user: email });
+    return res.status(200).json(newUser);
   } catch (e) {
     console.log("ERROR: ", e);
     return res.status(400).json({ message: "wrong request" });
@@ -43,7 +47,7 @@ exports.login = async (req, res) => {
     }
 
     req.session.userId = user._id;
-    return res.status(200).json({ user: user.email, id: user._id });
+    return res.status(200).json(user);
   } catch (e) {
     return res.status(400).json({ message: "wrong request" });
   }
