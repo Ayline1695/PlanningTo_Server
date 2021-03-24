@@ -8,7 +8,10 @@ const {
   getUser,
 } = require("../controllers/auth.controllers");
 
+const { getSession } = require("../controllers/session.controller");
+
 route
+  .get("/session", getSession)
   .post("/signup", signup)
   .post("/login", login)
   .post("/logout", logout)

@@ -5,10 +5,10 @@ const app = express();
 
 //db
 require("./configs/db.config")();
-//middleware
-require("./configs/middleware.config")(app);
 //Session
 require("./configs/session.config")(app);
+//middleware
+require("./configs/middleware.config")(app);
 
 const projectRoutes = require("./routes/project.routes");
 const authRoutes = require("./routes/auth.routes");
