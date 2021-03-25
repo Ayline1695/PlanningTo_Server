@@ -15,7 +15,7 @@ route
   .get("/:projectId", getProject)
   .post("/", createProject)
   .post("/upload", fileParser.single("file"), uploadImage)
-  .put("/:projectId", updateProject)
+  .patch("/:projectId", updateProject)
   .delete("/:projectId", removeProject);
 
 module.exports = route;
