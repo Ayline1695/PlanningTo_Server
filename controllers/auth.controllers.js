@@ -63,3 +63,26 @@ exports.getUser = async (req, res) => {
   const user = await User.findById(userId).populate("projects");
   res.status(200).json(user);
 };
+
+//Upload img
+exports.uploadImage = async (req, res) => {
+  console.log("req.file", req.file);
+  if (!req.file) {
+    next(new Error("No file uploaded"));
+    return;
+  }
+  res.json(req.file.path);
+};
+
+exports.updateUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const userinfo = await User.findByIdAndUpdate(userId, req.body, {
+      new: true,
+      omitUndefined: true,
+    });
+    res.status(200).json(userinfo);
+  } catch (e) {
+    res.status(400);
+  }
+};
