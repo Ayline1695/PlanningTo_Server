@@ -25,7 +25,7 @@ exports.signup = async (req, res) => {
     req.session.userId = newUser._id;
     return res.status(200).json(newUser);
   } catch (e) {
-    console.log("ERROR: ", e);
+    console.log("ERROR -> ", e);
     return res.status(400).json({ message: "wrong request" });
   }
 };

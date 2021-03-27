@@ -18,7 +18,7 @@ route
   .post("/signup", signup)
   .post("/login", login)
   .post("/logout", logout)
-  .get("/user", getUser)
+  .get("/", getUser)
   .post("/upload", fileParser.single("file"), uploadImage)
   .patch("/:userId", updateUser);
 
