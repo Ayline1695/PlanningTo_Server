@@ -60,7 +60,7 @@ exports.logout = async (req, res) => {
 
 exports.getUser = async (req, res) => {
   const { userId } = req.session;
-  const user = await User.findById(userId).populate("projects");
+  const user = await User.findById(userId).populate("projects", "lists");
   res.status(200).json(user);
 };
 

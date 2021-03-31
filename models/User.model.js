@@ -15,6 +15,12 @@ const UserSchema = new mongoose.Schema(
         ref: "Project",
       },
     ],
+    lists: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "PostIt",
+      },
+    ],
   },
   { timestamps: true }
 );

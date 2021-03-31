@@ -77,6 +77,3 @@ exports.removeProject = async (req, res) => {
     res.status(400);
   }
 };
-//shallow deleted, donde se guardan lo que se ha borrado, una carpeta de basura, clase 9/03/2021
-
-// tasks
